@@ -1,103 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Commerce Project</title>
-    <link rel="stylesheet" href="./style.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+
+    </title>
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <div id="EcommerceContainer">
-        <header>
-            <ul class='header'>
-                <li><a href="#">HOME</a></li>
-                <li><a href="#">STORE</a></li>
-                <li><a href="#">ABOUT</a></li>
-                <a href="#cart" class="cart-holder">cart<span class='cart-number'>0</span></a>
-            </ul>
-            <h1>The Local Store</h1>
+    <main>
+        <div class="backdrop"></div>
+        <header class="main-header">
+            <button id="side-menu-toggle">☰</button>
+            <nav class="main-header__nav">
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <a class="" href="home.html">HOME</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="active" href="#">STORE</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="" href="about.html">ABOUT</a>
+                    </li>
+                    <li class="main-header__item cart">
+                        <a href="#cart-container" id="cart-btn1">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            CART<span class='cart-number'>0</span></a>
+                    </li>
+                </ul>
+            </nav>
         </header>
-        <section id="music" class="container">
-            <h2>FASHION</h2>
-            <div id="music-content">
-                <div id='album1'>
-                    <h3>Dress 1</h3>
-                    <div class="image-container">
-                        <img class="prod-images" src="./img/dress1.png" alt="">
-                    </div>
-                    <div class="prod-details">
-                        <span>₹<span>599</span></span>
-                        <button class="shop-item-button" type='button'>ADD TO CART</button>
-                    </div>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav__item-list">
+                <li class="mobile-nav__item">
+                    <a class="" href="home.html">HOME</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="active" href="#">STORE</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="" href="about.html">ABOUT</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="#cart-container" id="cart-btn2"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CART</a>
+                </li>
+            </ul>
+        </nav>
+        <div style="height: 55px;"></div>
+        <div class="compName">The Local Store</div>
+        <div align="center">
+            <h2>CLOTHING</h2>
+        </div>
+        <div id="grid-items" class="grid">
+            <article id="product1" class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        Men Kurta (Yellow)
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="./img/dress4.png" alt="P Title">
                 </div>
-                <div id='album2'>
-                    <h3>Dress 2</h3>
-                    <div class="image-container">
-                        <img class="prod-images" src="./img/dress2.png" alt="">
-                    </div>
-                    <div class="prod-details">
-                        <span>₹<span>859</span></span>
-                        <button class="shop-item-button" type='button'>ADD TO CART</button>
-                    </div>
+                <div class="card__content">
+                    <h2 class="product__price"><span>₹ <span>359</span></span>
+                    </h2>
                 </div>
-                <div id='album3'>
-                    <h3>Dress 3</h3>
-                    <div class="image-container">
-                        <img class="prod-images" src="./img/dress3.png" alt="">
-                    </div>
-                    <div class="prod-details">
-                        <span>₹<span>455</span></span>
-                        <button class="shop-item-button" type='button'>ADD TO CART</button>
-                    </div>
+                <div class="card__actions">
+                    <a href="" class="btn btn-detail">Details</a>
+                    <button class="btn btn-cart">Add to Cart</button>
                 </div>
-                <div id='album4'>
-                    <h3>Dress 4</h3>
-                    <div class="image-container">
-                        <img class="prod-images" src="./img/dress4.png" alt="">
-                    </div>
-                    <div class="prod-details">
-                        <span>₹<span>899</span></span>
-                        <button class="shop-item-button" type='button'>ADD TO CART</button>
-                    </div>
+            </article>
+            <article id="product2" class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        Crepe Blend Gown (Green)
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="./img/dress5.png" alt="P Title">
                 </div>
+                <div class="card__content">
+                    <h2 class="product__price"><span>₹ <span>259</span></span>
+                    </h2>
+                </div>
+                <div class="card__actions">
+                    <a href="" class="btn btn-detail">Details</a>
+                    <button class="btn btn-cart">Add to Cart</button>
+                </div>
+            </article>
+            <article id="product3" class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        Sherwani
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="./img/dress6.png" alt="P Title">
+                </div>
+                <div class="card__content">
+                    <h2 class="product__price"><span>₹ <span>184</span></span>9
+                    </h2>
+                </div>
+                <div class="card__actions">
+                    <a href="" class="btn btn-detail">Details</a>
+                    <button class="btn btn-cart">Add to Cart</button>
+                </div>
+            </article>
+            <article id="product4" class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        Men Casual Shirt
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="./img/dress1.png" alt="P Title">
+                </div>
+                <div class="card__content">
+                    <h2 class="product__price"><span>₹ <span>999</span></span>
+                    </h2>
+                </div>
+                <div class="card__actions">
+                    <a href="" class="btn btn-detail">Details</a>
+                    <button class="btn btn-cart">Add to Cart</button>
+                </div>
+            </article>
+            <article id="product5" class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        Polo Neck Green T-Shirt
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="./img/dress2.png" alt="P Title">
+                </div>
+                <div class="card__content">
+                    <h2 class="product__price"><span>₹ <span>499</span></span>
+                    </h2>
+                </div>
+                <div class="card__actions">
+                    <a href="" class="btn btn-detail">Details</a>
+                    <button class="btn btn-cart">Add to Cart</button>
+                </div>
+            </article>
+            <article id="product6" class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        Men Cargo
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="./img/dress3.png" alt="P Title">
+                </div>
+                <div class="card__content">
+                    <h2 class="product__price"><span>₹ <span>459</span></span>
+                    </h2>
+                </div>
+                <div class="card__actions">
+                    <a href="" class="btn btn-detail">Details</a>
+                    <button class="btn btn-cart">Add to Cart</button>
+                </div>
+            </article>
+        </div>
+        <div id="notification"></div>
+        <div class="popup-container" id="cart-container">
+            <div class="popup">
+                <button id="cart-close">x</button>
+                <h2>CART</h2>
+                <div class="cart-row cart-header">
+                    <span class="cart-col cart-item">ITEM</span>
+                    <span class="cart-col cart-price">PRICE</span>
+                    <span class="cart-col cart-qty">QUANTITY</span>
+                </div>
+                <div class="cart-items">
+                    <!-- <div class="cart-row">
+                        <span class='cart-item cart-col'>
+                            <img class='cart-img' src="./img/dress1.png" alt="">
+                            <span>T-Shirt</span>
+                        </span>
+                        <span class='cart-price cart-col'>₹ 19.99</span>
+                        <span class='cart-qty cart-col'>
+                            <input type="text">
+                            <button class="btn btn-danger">REMOVE</button>
+                        </span>
+                    </div> -->
+                </div>
+                <div class="cart-total">
+                    <span>
+                        <span class='total-title'> <strong>Total</strong>
+                        </span>
+                        ₹ <span id='total-value'>0</span>
+                    </span>
+                </div>
+                <button class="btn-order">PLACE ORDER</button>
             </div>
-
-        </section>
-        <section id="merch" class="container">
-            <h2>ELECTRONICS</h2>
-            <div id="merch-content">
-                <div id="t-shirt">
-                    <h3>Laptop</h3>
-                    <div class="image-container">
-                        <img class="prod-images" src="./img/elec1.png" alt="">
-                    </div>
-                    <div class="prod-details">
-                        <span>₹<span>19.99</span></span>
-                        <button class="shop-item-button" type='button'>ADD TO CART</button>
-                    </div>
-                </div>
-                <div id="coffee-cup">
-                    <h3>Mobiles</h3>
-                    <div class="image-container">
-                        <img class="prod-images" src="./img/elec2.png" alt="">
-                    </div>
-                    <div class="prod-details">
-                        <span>₹<span>6.99</span></span>
-                        <button class="shop-item-button" type='button'>ADD TO CART</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <button class="cart-btn-bottom"> <a href="#cart" class="cart-bottom">See the cart</a></button>
-    </div>
-    <!-- Toggle notification -->
-    <div id="container"></div>
+        </div>
+    </main>
     <footer>
         <div class="footer-title">
             The Local Store
         </div>
+        <div class="footer-icons">
+            <ul>
+                <li><a href="https://wa.me/916370434376" target="_blank"><i class="fa fa-whatsapp fa-2x"
+                            aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook fa-2x"
+                            aria-hidden="true"></i></a></li>
+                <li><a href="mailto:janmejoysahoo@gmail.com" target="_blank"><i class="fa fa-envelope-o fa-2x"
+                            aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
     </footer>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>
