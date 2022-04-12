@@ -19,10 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </h2>
                 </div>
                 <div class="card__actions">
-                    <a href="" class="btn btn-detail">Details</a>
+                    <!-- <a href="" class="btn btn-detail">Details</a> -->
                     <button class="btn btn-cart">Add to Cart</button>
+                    <input type="hidden" name="productId" value="${product.id}">
                 </div>`;
             gridItems.appendChild(prodElement);
         });
     });
 });
+

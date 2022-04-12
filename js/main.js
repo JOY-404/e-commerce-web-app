@@ -43,24 +43,29 @@ cartClose.addEventListener('click', () => {
 // Add to Cart Function
 const gridItems = document.getElementById('grid-items');
 gridItems.addEventListener('click', (e) => {
+  // Add to cart button is clicked
   if(e.target.className == 'btn btn-cart') {
     const id = e.target.parentNode.parentNode.id;
+    const pid = document.querySelector(`#${id} .card__actions input`).value;
     const pName = document.querySelector(`#${id} header h1`).innerText;
     const price = document.querySelector(`#${id} .card__content .product__price span span`).innerText;
     const imgSrc = document.querySelector(`#${id} .card__image img`).src;
 
-    if(document.querySelector(`#cart-${id}`)) {
-      const cartItem = document.querySelector(`#cart-${id}`);
-      const cartQty = parseInt(cartItem.lastElementChild.firstElementChild.value) + 1;
-      cartItem.lastElementChild.firstElementChild.value = cartQty;
-      //console.log((cartQty * parseFloat(price)).toFixed(2));
-      cartItem.querySelector('.cart-price.cart-col span').innerText = `${(cartQty * parseFloat(price)).toFixed(2)}`;
-    }
-    else {
-      const cartItem = document.createElement('div');
-      cartItem.className = 'cart-row';
-      cartItem.setAttribute('id', `cart-${id}`);
-      cartItem.innerHTML = `<span class='cart-item cart-col'>
+    // POST request to DB with pid
+    axios.post('http://localhost:3000/cart', { productId: pid }).then(res => {
+
+      if (document.querySelector(`#cart-${id}`)) {
+        const cartItem = document.querySelector(`#cart-${id}`);
+        const cartQty = parseInt(cartItem.lastElementChild.firstElementChild.value) + 1;
+        cartItem.lastElementChild.firstElementChild.value = cartQty;
+        //console.log((cartQty * parseFloat(price)).toFixed(2));
+        cartItem.querySelector('.cart-price.cart-col span').innerText = `${(cartQty * parseFloat(price)).toFixed(2)}`;
+      }
+      else {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-row';
+        cartItem.setAttribute('id', `cart-${id}`);
+        cartItem.innerHTML = `<span class='cart-item cart-col'>
                             <img class='cart-img' src="${imgSrc}" alt="">
                             <span>${pName}</span>
                         </span>
@@ -69,31 +74,42 @@ gridItems.addEventListener('click', (e) => {
                             <input type="text" value='1' readonly>
                             <button class="btn btn-danger">REMOVE</button>
                         </span>`;
-      const cartItems = document.querySelector('.cart-items');
-      cartItems.appendChild(cartItem);
-    }
+        const cartItems = document.querySelector('.cart-items');
+        cartItems.appendChild(cartItem);
+      }
 
-    // Update Cart Total Amount
-    let cartTotPrice = document.getElementById('total-value').innerText;
-    cartTotPrice = (parseFloat(price) + parseFloat(cartTotPrice)).toFixed(2);
-    document.getElementById('total-value').innerText = cartTotPrice;
+      // Update Cart Total Amount
+      let cartTotPrice = document.getElementById('total-value').innerText;
+      cartTotPrice = (parseFloat(price) + parseFloat(cartTotPrice)).toFixed(2);
+      document.getElementById('total-value').innerText = cartTotPrice;
 
-    // Update cart qty count
-    document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText) + 1;
+      // Update cart qty count
+      document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText) + 1;
 
-    // Gives a short toast
-    const notification = document.getElementById('notification');
-    const notice = document.createElement('div');
-    notice.classList.add('toast');
-    notice.innerHTML = `<i class="fa fa-check-circle fa-lg" aria-hidden="true" style='color: #99C24D;'></i>&nbsp;&nbsp;${pName} Added to Cart`;
-    //notification.appendChild(notice);
-    notification.insertBefore(notice, notification.firstChild);
+      // Gives a short toast
+      const notification = document.getElementById('notification');
+      const notice = document.createElement('div');
+      notice.classList.add('toast');
+      notice.innerHTML = `<i class="fa fa-check-circle fa-lg" aria-hidden="true" style='color: #99C24D;'></i>&nbsp;&nbsp;${pName} Added to Cart`;
+      //notification.appendChild(notice);
+      notification.insertBefore(notice, notification.firstChild);
+      setTimeout(() => notice.remove(), 3000);
 
-    setTimeout(() => {
-      notice.remove();
-    }, 3000);
+    }).catch(err => {
+      console.log(err);
+      showErrorNotification();
+    });
   }
 });
+
+function showErrorNotification() {
+  const notification = document.getElementById('notification');
+  const notice = document.createElement('div');
+  notice.classList.add('toast');
+  notice.innerHTML = `<i class="fa fa-exclamation-circle fa-lg" aria-hidden="true" style='color: red;'></i>&nbsp;&nbsp;Oops! Something Went Wrong`;
+  notification.insertBefore(notice, notification.firstChild);
+  setTimeout(() => notice.remove(), 3000);
+}
 
 // Remove Items from Cart function
 const cartItems = document.querySelector('.cart-items');
