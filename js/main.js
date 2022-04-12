@@ -1,3 +1,5 @@
+
+const cartContainer = document.getElementById('cart-container');
 // Navigation - hamburger
 const backdrop = document.querySelector('.backdrop');
 const sideDrawer = document.querySelector('.mobile-nav');
@@ -6,31 +8,34 @@ const menuToggle = document.querySelector('#side-menu-toggle');
 backdrop.addEventListener('click', () => {
   backdrop.style.display = 'none';
   sideDrawer.classList.remove('open');
+  cartContainer.classList.remove('active');
 });
 
 menuToggle.addEventListener('click', () => {
   backdrop.style.display = 'block';
   sideDrawer.classList.add('open');
+  cartContainer.classList.remove('active');
 });
 
 // Cart - popup
 const cartBtn1 = document.getElementById('cart-btn1');
 const cartBtn2Mob = document.getElementById('cart-btn2');
 const cartClose = document.getElementById('cart-close');
-const cartContainer = document.getElementById('cart-container');
 
 cartBtn1.addEventListener('click', () => {
-  cartContainer.classList.toggle('active');
+  backdrop.style.display = 'block';
+  cartContainer.classList.add('active');
 });
 
 cartBtn2Mob.addEventListener('click', () => {
   // As side nav bar is open - first close it
-  backdrop.style.display = 'none';
+  backdrop.style.display = 'block';
   sideDrawer.classList.remove('open');
   cartContainer.classList.add('active');
 });
 
 cartClose.addEventListener('click', () => {
+  backdrop.style.display = 'none';
   cartContainer.classList.remove('active');
 });
 
@@ -49,7 +54,7 @@ gridItems.addEventListener('click', (e) => {
       const cartQty = parseInt(cartItem.lastElementChild.firstElementChild.value) + 1;
       cartItem.lastElementChild.firstElementChild.value = cartQty;
       //console.log((cartQty * parseFloat(price)).toFixed(2));
-      cartItem.querySelector('.cart-price.cart-col').innerText = `₹ ${(cartQty * parseFloat(price)).toFixed(2)}`;
+      cartItem.querySelector('.cart-price.cart-col span').innerText = `${(cartQty * parseFloat(price)).toFixed(2)}`;
     }
     else {
       const cartItem = document.createElement('div');
@@ -59,9 +64,9 @@ gridItems.addEventListener('click', (e) => {
                             <img class='cart-img' src="${imgSrc}" alt="">
                             <span>${pName}</span>
                         </span>
-                        <span class='cart-price cart-col'>₹ ${parseFloat(price).toFixed(2)}</span>
+                        <span class='cart-price cart-col'>₹&nbsp;<span>${parseFloat(price).toFixed(2)}</span></span>
                         <span class='cart-qty cart-col'>
-                            <input type="text" value='1'>
+                            <input type="text" value='1' readonly>
                             <button class="btn btn-danger">REMOVE</button>
                         </span>`;
       const cartItems = document.querySelector('.cart-items');
@@ -87,5 +92,24 @@ gridItems.addEventListener('click', (e) => {
     setTimeout(() => {
       notice.remove();
     }, 3000);
+  }
+});
+
+// Remove Items from Cart function
+const cartItems = document.querySelector('.cart-items');
+cartItems.addEventListener('click', (e) => {
+  //console.log(e.target.className);
+  if (e.target.className == 'btn btn-danger') {
+    // Remove that item from the list
+    const cartItem = e.target.parentNode.parentNode;
+    const itemAmt = parseFloat(cartItem.querySelector(`.cart-price span`).innerText);
+    const itemQty = parseInt(cartItem.querySelector('.cart-qty input').value);
+    cartItems.removeChild(cartItem);
+    // Update Cart Total Amount
+    let cartTotPrice = document.getElementById('total-value').innerText;
+    cartTotPrice = (parseFloat(cartTotPrice) - itemAmt).toFixed(2);
+    document.getElementById('total-value').innerText = cartTotPrice;
+    // Update cart qty count
+    document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText) - itemQty;
   }
 });
