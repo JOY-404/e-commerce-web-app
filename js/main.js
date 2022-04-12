@@ -81,7 +81,8 @@ gridItems.addEventListener('click', (e) => {
     const notice = document.createElement('div');
     notice.classList.add('toast');
     notice.innerHTML = `<i class="fa fa-check-circle fa-lg" aria-hidden="true" style='color: #99C24D;'></i>&nbsp;&nbsp;${pName} Added to Cart`;
-    notification.appendChild(notice);
+    //notification.appendChild(notice);
+    notification.insertBefore(notice, notification.firstChild);
 
     setTimeout(() => {
       notice.remove();

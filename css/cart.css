@@ -139,8 +139,8 @@
 
 #notification {
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    top: 3.5rem;
+    right: 0;
 }
 
 .toast {
