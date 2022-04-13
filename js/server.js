@@ -1,12 +1,34 @@
-
 // Add products from server
 document.addEventListener('DOMContentLoaded', () => {
-    axios.get('http://localhost:3000/products').then(res => {
-        res.data.forEach(product => {
-            const prodElement = document.createElement('article');
-            prodElement.className = 'card product-item';
-            prodElement.setAttribute('id', `item${product.id}`);
-            prodElement.innerHTML = `<header class="card__header">
+    getProducts();
+    getCartItems();
+});
+
+function getProducts(page) {
+    let getUrl = `http://localhost:3000/products`;
+    if (page) getUrl += `?page=${page}`;
+    //console.log(getUrl);
+
+    axios.get(getUrl).then(res => {
+        const products = res.data.products;
+        const currPage = res.data.currPage;
+        const hasNextPage = res.data.hasNextPage;
+        const hasPrevPage = res.data.hasPrevPage;
+        const nextPage = res.data.nextPage;
+        const prevPage = res.data.prevPage;
+        const lastPage = res.data.lastPage;
+
+        gridItems.innerHTML = '';
+        const paginationContainer = document.querySelector('main .pagination');
+        paginationContainer.innerHTML = '';
+
+        if (products.length > 0) {
+
+            products.forEach(product => {
+                const prodElement = document.createElement('article');
+                prodElement.className = 'card product-item';
+                prodElement.setAttribute('id', `item${product.id}`);
+                prodElement.innerHTML = `<header class="card__header">
                     <h1 class="product__title">
                         ${product.title}
                     </h1>
@@ -23,8 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="btn btn-cart">Add to Cart</button>
                     <input type="hidden" value="${product.id}">
                 </div>`;
-            gridItems.appendChild(prodElement);
-        });
+                gridItems.appendChild(prodElement);
+            });
+            let pageInnerHTML = '';
+            if (currPage != 1 && prevPage != 1) {
+                pageInnerHTML += `<span class='page' id='1'>1</span>`;
+                if (prevPage - 1 != 1) pageInnerHTML += '...';
+            }
+            if (hasPrevPage)
+                pageInnerHTML += `<span class='page' id='${prevPage}'>${prevPage}</span>`;
+            pageInnerHTML += `<span class='page active' id='${currPage}'>${currPage}</span>`;
+            if (hasNextPage)
+                pageInnerHTML += `<span class='page' id='${nextPage}'>${nextPage}</span>`;
+            if (lastPage != currPage && nextPage != lastPage) {
+                if (nextPage + 1 != lastPage) pageInnerHTML += '...';
+                pageInnerHTML += `<span class='page' id='${lastPage}'>${lastPage}</span>`;
+            }
+            paginationContainer.innerHTML = pageInnerHTML;
+        }
     }).catch(err => {
         if (err.response) {
             showNotification(`Oops! Something went wrong! ${err.response.status}`, true);
@@ -36,17 +74,33 @@ document.addEventListener('DOMContentLoaded', () => {
             showNotification(err.message, true);
         }
     });
+}
 
-    axios.get('http://localhost:3000/cart').then(res => {
-        let cartTotPrice = 0;
-        let totalQty = 0;
+function getCartItems(page) {
+    let getUrl = `http://localhost:3000/cart`;
+    if (page) getUrl += `?page=${page}`;
 
-        res.data.forEach(product => {
-            const cartItemElement = document.createElement('div');
-            cartItemElement.className = 'cart-row';
-            cartItemElement.setAttribute('id', `cart-item${product.id}`);
-            const totAmt = parseFloat(product.price) * parseFloat(product.cartItems.quantity);
-            cartItemElement.innerHTML = `<span class='cart-item cart-col'>
+    axios.get(getUrl).then(res => {
+        const products = res.data.products;
+        const currPage = parseInt(res.data.currPage);
+        const hasNextPage = res.data.hasNextPage;
+        const hasPrevPage = res.data.hasPrevPage;
+        const nextPage = parseInt(res.data.nextPage);
+        const prevPage = parseInt(res.data.prevPage);
+        const lastPage = parseInt(res.data.lastPage);
+        const cartTotPrice = res.data.cartTotPrice;
+        const totalQty = res.data.cartTotQty;
+
+        cartItems.innerHTML = '';
+        const paginationContainer = document.querySelector('#cart-container .pagination');
+        paginationContainer.innerHTML = '';
+        if (products.length > 0) {
+            products.forEach(product => {
+                const cartItemElement = document.createElement('div');
+                cartItemElement.className = 'cart-row';
+                cartItemElement.setAttribute('id', `cart-item${product.id}`);
+                const totAmt = parseFloat(product.price) * parseFloat(product.cartItems.quantity);
+                cartItemElement.innerHTML = `<span class='cart-item cart-col'>
                             <img class='cart-img' src="${product.imageUrl}" alt="">
                             <span>${product.title}</span>
                         </span>
@@ -55,14 +109,27 @@ document.addEventListener('DOMContentLoaded', () => {
                             <input type="text" value='${product.cartItems.quantity}' readonly>
                             <button class="btn btn-danger">REMOVE</button>
                         </span>`;
-            cartItems.appendChild(cartItemElement);
-
-            cartTotPrice += totAmt;
-            totalQty += parseInt(product.cartItems.quantity);
-        });
+                cartItems.appendChild(cartItemElement);
+            });
+            let pageInnerHTML = '';
+            if (currPage != 1 && prevPage != 1) {
+                pageInnerHTML += `<span class='page' id='1'>1</span>`;
+                if (prevPage - 1 != 1) pageInnerHTML += '...';
+            }
+            if (hasPrevPage)
+                pageInnerHTML += `<span class='page' id='${prevPage}'>${prevPage}</span>`;
+            pageInnerHTML += `<span class='page active' id='${currPage}'>${currPage}</span>`;
+            if (hasNextPage)
+                pageInnerHTML += `<span class='page' id='${nextPage}'>${nextPage}</span>`;
+            if (lastPage != currPage && nextPage != lastPage) {
+                if (nextPage + 1 != lastPage) pageInnerHTML += '...';
+                pageInnerHTML += `<span class='page' id='${lastPage}'>${lastPage}</span>`;
+            }
+            paginationContainer.innerHTML = pageInnerHTML;
+        }
 
         // Update Cart Total Amount
-        document.getElementById('total-value').innerText = cartTotPrice.toFixed(2);;
+        document.getElementById('total-value').innerText = cartTotPrice.toFixed(2);
         // Update cart qty count
         document.querySelector('.cart-number').innerText = totalQty;
     }).catch(err => {
@@ -75,6 +142,5 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             showNotification(err.message, true);
         }
-    });    
-});
-
+    });
+}

@@ -50,7 +50,10 @@ gridItems.addEventListener('click', (e) => {
 
     // POST request to DB with pid
     axios.post('http://localhost:3000/cart', { productId: pid }).then(res => {
-      saveToCartDOM(id);
+      //saveToCartDOM(id);
+      const pName = document.querySelector(`#${id} header h1`).innerText;
+      showNotification(`${pName} Added to Cart`, false);
+      getCartItems();
     }).catch(err => {
       if (err.response) {
         showNotification(`Oops! Something went wrong! ${err.response.status}`, true);
@@ -79,6 +82,7 @@ function showNotification(message, isError) {
   setTimeout(() => notice.remove(), 3000);
 }
 
+/*
 function saveToCartDOM(id) {
   const pName = document.querySelector(`#${id} header h1`).innerText;
   const price = document.querySelector(`#${id} .card__content .product__price span span`).innerText;
@@ -115,9 +119,8 @@ function saveToCartDOM(id) {
 
   // Update cart qty count
   document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText) + 1;
-  
-  showNotification(`${pName} Added to Cart`, false);
 }
+*/
 
 // Remove Items from Cart function
 const cartItems = document.querySelector('.cart-items');
@@ -132,6 +135,8 @@ cartItems.addEventListener('click', (e) => {
       // Remove that item from the list
       const itemAmt = parseFloat(cartItem.querySelector(`.cart-price span`).innerText);
       const itemQty = parseInt(cartItem.querySelector('.cart-qty input').value);
+      
+      /*
       cartItems.removeChild(cartItem);
       // Update Cart Total Amount
       let cartTotPrice = document.getElementById('total-value').innerText;
@@ -139,6 +144,10 @@ cartItems.addEventListener('click', (e) => {
       document.getElementById('total-value').innerText = cartTotPrice;
       // Update cart qty count
       document.querySelector('.cart-number').innerText = parseInt(document.querySelector('.cart-number').innerText) - itemQty;
+      */
+      let cartPage = document.querySelector('#cart-container .pagination .active').id;
+      if (cartItems.childElementCount == 1) cartPage = parseInt(cartPage) - 1;
+      getCartItems(cartPage);
     }).catch(err => {
       if (err.response) {
         showNotification(`Oops! Something went wrong! ${err.response.status}`, true);
@@ -150,5 +159,24 @@ cartItems.addEventListener('click', (e) => {
         showNotification(err.message, true);
       }
     });
+  }
+});
+
+
+const paginatnProducts = document.querySelector('main .pagination');
+paginatnProducts.addEventListener('click', (e) => {
+  if(e.target.className === 'page') {
+    //console.log(e.target.id);
+    const page = e.target.id;
+    getProducts(page);
+  }
+});
+
+const paginatnCart = document.querySelector('#cart-container .pagination');
+paginatnCart.addEventListener('click', (e) => {
+  if (e.target.className === 'page') {
+    //console.log(e.target.id);
+    const page = e.target.id;
+    getCartItems(page);
   }
 });
