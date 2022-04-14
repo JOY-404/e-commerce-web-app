@@ -1,4 +1,16 @@
-// Add products from server
+
+// pagination for products
+const paginatnProducts = document.querySelector('main .pagination');
+paginatnProducts.addEventListener('click', (e) => {
+    if (e.target.className === 'page') {
+        //console.log(e.target.id);
+        const page = e.target.id;
+        getProducts(page);
+    }
+});
+
+
+// Add products & cartItems from server
 document.addEventListener('DOMContentLoaded', () => {
     getProducts();
     getCartItems();
