@@ -52,7 +52,7 @@ gridItems.addEventListener('click', (e) => {
     axios.post('http://localhost:3000/cart', { productId: pid }).then(res => {
       //saveToCartDOM(id);
       const pName = document.querySelector(`#${id} header h1`).innerText;
-      showNotification(`${pName} Added to Cart`, false);
+      showNotification(`${pName} Added to Cart`);
       getCartItems();
     }).catch(err => {
       if (err.response) {
@@ -68,7 +68,7 @@ gridItems.addEventListener('click', (e) => {
   }
 });
 
-function showNotification(message, isError) {
+function showNotification(message, isError=false) {
   // Gives a short toast
   const notification = document.getElementById('notification');
   const notice = document.createElement('div');
@@ -148,6 +148,7 @@ cartItems.addEventListener('click', (e) => {
       let cartPage = document.querySelector('#cart-container .pagination .active').id;
       if (cartItems.childElementCount == 1) cartPage = parseInt(cartPage) - 1;
       getCartItems(cartPage);
+      showNotification('Item Removed from Cart');
     }).catch(err => {
       if (err.response) {
         showNotification(`Oops! Something went wrong! ${err.response.status}`, true);
@@ -178,5 +179,41 @@ paginatnCart.addEventListener('click', (e) => {
     //console.log(e.target.id);
     const page = e.target.id;
     getCartItems(page);
+  }
+});
+
+const btnOrderNow = document.querySelector('.btn-order');
+btnOrderNow.addEventListener('click', () => {
+  const cartTotAmt = parseFloat(document.getElementById('total-value').innerText);
+  
+  if (cartTotAmt > 0) {
+    axios.post('http://localhost:3000/create-order', { totAmt: cartTotAmt }).then(res => {
+      let msg;
+      if (res.data.success == true) {
+        cartItems.innerHTML = '';
+        const paginationContainer = document.querySelector('#cart-container .pagination');
+        paginationContainer.innerHTML = '';
+        // Update Cart Total Amount
+        document.getElementById('total-value').innerText = (0).toFixed(2);
+        // Update cart qty count
+        document.querySelector('.cart-number').innerText = 0;
+
+        showNotification(`Order sucessfully placed with order id = ${res.data.orderid}`);
+      }
+      else showNotification(`Failed to save order details.`, true);  
+    }).catch(err => {
+      if (err.response) {
+        showNotification(`Oops! Something went wrong! ${err.response.status}`, true);
+      }
+      else if (err.request) {
+        showNotification('Error: No Response From Server', true);
+      }
+      else {
+        showNotification(err.message, true);
+      }
+    });
+  }
+  else {
+    showNotification("Your Cart is Empty", true);
   }
 });

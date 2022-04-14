@@ -144,6 +144,7 @@
     position: fixed;
     top: 3.5rem;
     right: 0;
+    z-index: 100; 
 }
 
 .toast {
@@ -153,5 +154,14 @@
     padding: 0.7rem 1.2rem;
     margin: 0.5rem;
     position: relative;
-    z-index: 100; 
+}
+
+@media (max-width: 768px) {
+.popup-container {
+  left: 0;
+}
+
+.popup {
+  width: 100%;
+}
 }

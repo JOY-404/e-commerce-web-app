@@ -127,7 +127,6 @@ function getCartItems(page) {
             }
             paginationContainer.innerHTML = pageInnerHTML;
         }
-
         // Update Cart Total Amount
         document.getElementById('total-value').innerText = cartTotPrice.toFixed(2);
         // Update cart qty count
