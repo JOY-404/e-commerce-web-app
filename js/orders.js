@@ -1,3 +1,4 @@
+const baseURL = 'http://localhost:3000';
 
 document.addEventListener('DOMContentLoaded', () => {
     getOrders();
@@ -6,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const ordersContainer = document.querySelector('.orders');
 
 function getOrders() {
-    let getUrl = `http://localhost:3000/orders`;
+    let getUrl = `${baseURL}/orders`;
 
     axios.get(getUrl).then(res => {
         const orders = res.data;

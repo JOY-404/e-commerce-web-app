@@ -1,4 +1,3 @@
-
 // Cart - popup
 const cartBtn1 = document.getElementById('cart-btn1');
 const cartBtn2Mob = document.getElementById('cart-btn2');
@@ -31,7 +30,7 @@ gridItems.addEventListener('click', (e) => {
         const pid = document.querySelector(`#${id} .card__actions input`).value;
 
         // POST request to DB with pid
-        axios.post('http://localhost:3000/cart', { productId: pid }).then(res => {
+        axios.post(`${baseURL}/cart`, { productId: pid }).then(res => {
             //saveToCartDOM(id);
             const pName = document.querySelector(`#${id} header h1`).innerText;
             showNotification(`${pName} Added to Cart`);
@@ -59,7 +58,7 @@ cartItems.addEventListener('click', (e) => {
         const pid = cartItem.id.substring(9);
 
         // POST request to DB with pid
-        axios.post('http://localhost:3000/cart-delete-item', { productId: pid }).then(res => {
+        axios.post(`${baseURL}/cart-delete-item`, { productId: pid }).then(res => {
             let cartPage = document.querySelector('#cart-container .pagination .active').id;
             if (cartItems.childElementCount == 1) cartPage = parseInt(cartPage) - 1;
             getCartItems(cartPage);
@@ -95,7 +94,7 @@ btnOrderNow.addEventListener('click', () => {
     const cartTotAmt = parseFloat(document.getElementById('total-value').innerText);
 
     if (cartTotAmt > 0) {
-        axios.post('http://localhost:3000/create-order', { totAmt: cartTotAmt }).then(res => {
+        axios.post(`${baseURL}/create-order`, { totAmt: cartTotAmt }).then(res => {
             let msg;
             if (res.data.success == true) {
                 cartItems.innerHTML = '';

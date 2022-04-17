@@ -1,3 +1,4 @@
+const baseURL = 'http://localhost:3000';
 
 // pagination for products
 const paginatnProducts = document.querySelector('main .pagination');
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function getProducts(page) {
-    let getUrl = `http://localhost:3000/products`;
+    let getUrl = `${baseURL}/products`;
     if (page) getUrl += `?page=${page}`;
     //console.log(getUrl);
 
@@ -89,7 +90,7 @@ function getProducts(page) {
 }
 
 function getCartItems(page) {
-    let getUrl = `http://localhost:3000/cart`;
+    let getUrl = `${baseURL}/cart`;
     if (page) getUrl += `?page=${page}`;
 
     axios.get(getUrl).then(res => {
